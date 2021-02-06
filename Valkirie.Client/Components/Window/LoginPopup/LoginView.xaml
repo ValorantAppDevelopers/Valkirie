@@ -10,8 +10,7 @@
                  ResizeMode="NoResize"
                  ShowMinButton="False"
                  ShowMaxRestoreButton="False"
-                 ShowTitleBar="False"
-                 WindowStartupLocation="CenterScreen"
+                 WindowStartupLocation="CenterScreen"                 
                  Height="600" Width="450">
     <Grid>
         <Grid.Background>
@@ -96,10 +95,33 @@
                             x:Name="passwordText"/>
                     </StackPanel>
 
-                    <iconPacks:PackIconModern Kind="Eye" 
+                    <Button Width="45"
+                            Height="45"
+                            Margin="-45,45,0,0"
+                            Background="Transparent"
+                            BorderThickness="0">
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                            <!--<Setter Property="Content">
+                                <Setter.Value>
+                                    <iconPacks:PackIconModern Width="30" Height="30" Kind="Eye" />
+                                </Setter.Value>
+                            </Setter>-->
+                        </Style>
+                    </Button>
+
+                    <!--<iconPacks:PackIconModern Kind="Eye" 
                         Height="30"
                         Width="30"
-                        Margin="-40,55,0,0" />
+                        Margin="-40,55,0,0">
+                        
+                    </iconPacks:PackIconModern>-->
+                    
                     <!--<Button
                         Click="Button_Click"
                         Width="70"
@@ -137,14 +159,15 @@
 
                 <StackPanel Orientation="Horizontal" Margin="50,40,0,0">
                     <CheckBox
-                        IsChecked="{Binding StaySignedChecked, UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="False"
+                        IsChecked="{Binding StaySignedChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Width="25"
                         Height="25"
                         BorderBrush="Red"
                         BorderThickness="1"/>
 
                     <TextBlock
-                        Text="Stay Signed In"
+                        Text="Stay Signed In [On next update]"
                         FontFamily="{StaticResource ValorantFont}"
                         Foreground="White"
                         FontSize="20"

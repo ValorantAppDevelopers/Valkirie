@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Valkirie.Client.Utilities;
+using static ValorantNET.Enums;
 
 namespace Valkirie.Client.Components.Window.LoginPopup
 {
@@ -13,18 +15,79 @@ namespace Valkirie.Client.Components.Window.LoginPopup
         private AppManager appManager;
 
         #region Prop
-        private string exampleText;
+        private string username;
+        private string password;
+        private Dictionary<string,Regions> regions;
+        private string selectedRegion;
+        private bool staySignedChecked;
 
-        public string ExampleText
+        public bool LoginEnable => true;
+        public string Username
         {
-            get => exampleText;
+            get => username;
 
             set
             {
-                if (exampleText != value)
+                if (username != value)
                 {
-                    exampleText = value;
-                    NotifyPropertyChanged(nameof(ExampleText));
+                    username = value;
+                    NotifyPropertyChanged(nameof(Username));
+                }
+            }
+        }
+
+        public string Password
+        {
+            get => password;
+
+            set
+            {
+                if (password != value)
+                {
+                    password = value;
+                    NotifyPropertyChanged(nameof(Password));
+                }
+            }
+        }
+
+        public Dictionary<string, Regions> Regions
+        {
+            get => regions;
+
+            set
+            {
+                if (regions != value)
+                {
+                    regions = value;
+                    NotifyPropertyChanged(nameof(Regions));
+                }
+            }
+        }
+
+        public string SelectedRegion
+        {
+            get => selectedRegion;
+
+            set
+            {
+                if (selectedRegion != value)
+                {
+                    selectedRegion = value;
+                    NotifyPropertyChanged(nameof(SelectedRegion));
+                }
+            }
+        }
+
+        public bool StaySignedChecked
+        {
+            get => staySignedChecked;
+
+            set
+            {
+                if (staySignedChecked != value)
+                {
+                    staySignedChecked = value;
+                    NotifyPropertyChanged(nameof(StaySignedChecked));
                 }
             }
         }
@@ -35,6 +98,19 @@ namespace Valkirie.Client.Components.Window.LoginPopup
         {
             this.loginView = loginView;
             this.appManager = appManager;
+
+            RegisterRegions();
+        }
+        #endregion
+
+        #region Methods
+        private void RegisterRegions()
+        {
+            Regions = new Dictionary<string, Regions>();
+            foreach (Regions region in (Regions[])Enum.GetValues(typeof(Regions)))
+            {
+                Regions.Add(region.ToString(), region);
+            }
         }
         #endregion
 
@@ -48,7 +124,8 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                 {
                     loginButton = new RelayCommands(obj =>
                     {
-                        this.loginView.Close();
+                        var vc = new ValorantCustomRequest(Username, Password, ValorantNET.Enums.Regions.EU);
+                        //this.loginView.Close();
                     }, obj => true);
                 }
                 return loginButton;
