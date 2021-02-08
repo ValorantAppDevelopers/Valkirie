@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.3" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
-    <PackageReference Include="Valorant.NET" Version="1.1.3.1" />
+    <PackageReference Include="Valorant.NET" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>

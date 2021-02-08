@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using static ValorantNET.Enums;
 
 namespace Valkirie.Client.Utilities
@@ -15,6 +16,9 @@ namespace Valkirie.Client.Utilities
         private string password;
         private Regions region;
         private string endpoint;
+        private HttpClient session;
+
+        public event EventHandler<string> loginReceived;
 
         public ValorantCustomRequest(string username, string password, Regions region)
         {
@@ -22,8 +26,9 @@ namespace Valkirie.Client.Utilities
             this.password = password;
             this.region = region;
             this.endpoint = $"https://pd.{region.ToString()}.a.pvp.net/";
+            session = new HttpClient();
 
-            GetToken();
+            UserInfo();
         }
 
         private string GetAuthorization()
@@ -35,7 +40,8 @@ namespace Valkirie.Client.Utilities
             data.redirect_uri = "https://playvalorant.com/opt_in";
             data.response_type = "token id_token";
 
-            return Post<dynamic>("https://auth.riotgames.com/api/v1/authorization", data).type;
+            var result = Post<dynamic>("https://auth.riotgames.com/api/v1/authorization", data).type;
+            return result;
         }
 
         private UserParameters GetToken()
@@ -45,67 +51,86 @@ namespace Valkirie.Client.Utilities
             userData.type = GetAuthorization();
             userData.username = username;
             userData.password = password;
-            
+
             var result = Put<UserParameters>("https://auth.riotgames.com/api/v1/authorization", userData);
+            string uri = result.response.parameters.uri;
+            char[] separators = { '#', '&' };
+            var authParameterResponse = uri.Split(separators);
+
+            session.DefaultRequestHeaders.Add("Authorization", "Bearer " + authParameterResponse[1].Replace("access_token=",""));
+
             return result;
+        }
+
+        private string GetEntitlementsToken()
+        {
+            GetToken();
+            string result = Post<dynamic>("https://entitlements.auth.riotgames.com/api/token/v1", new JObject().ToString()).entitlements_token;
+
+            session.DefaultRequestHeaders.Add("X-Riot-Entitlements-JWT", result);
+
+            return result;
+        }
+
+        private void UserInfo()
+        {
+            var task = new Task(async () =>
+            {
+                GetEntitlementsToken();
+                string result = Post<dynamic>("https://auth.riotgames.com/userinfo", "").sub;
+                loginReceived?.Invoke(this, result);
+            });
+            task.Start();
         }
 
         #region HttpMethods
         private T Post<T>(string url, dynamic data)
         {
-            using(var session = new HttpClient())
-            {
-                var result = session.PostAsync(url, new StringContent(data.ToString(), Encoding.UTF8, "application/json")).Result;
+            var result = session.PostAsync(url, new StringContent(data.ToString(), Encoding.UTF8, "application/json")).Result;
 
-                if (result.IsSuccessStatusCode)
-                {
-                    var resultString = result.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<T>(resultString);
-                }
-                else
-                {
-                    if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                        throw new Exception();
-                    throw new Exception("POST Call failure");
-                }
-            }         
+            if (result.IsSuccessStatusCode)
+            {
+                var resultString = result.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<T>(resultString);
+            }
+            else
+            {
+                if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    throw new Exception();
+                throw new Exception("POST Call failure");
+            }
         }
+
         private T Get<T>(string url)
         {
-            using (var session = new HttpClient())
+            var result = session.GetAsync(url).Result;
+            if (result.IsSuccessStatusCode)
             {
-                var result = session.GetAsync(url).Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var resultString = result.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<T>(resultString);
-                }
-                else
-                {
-                    if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                        throw new Exception();
-                    throw new Exception("GET Call failure");
-                }
+                var resultString = result.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<T>(resultString);
+            }
+            else
+            {
+                if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    throw new Exception();
+                throw new Exception("GET Call failure");
             }
         }
 
         private T Put<T>(string url, dynamic data)
         {
-            using (var session = new HttpClient())
-            {
-                var result = session.PutAsync(url, new StringContent(data.ToString(), Encoding.UTF8, "application/json")).Result;
+            var result = session.PutAsync(url, new StringContent(data.ToString(), Encoding.UTF8, "application/json")).Result;
 
-                if (result.IsSuccessStatusCode)
-                {
-                    var resultString = result.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<T>(resultString);
-                }
-                else
-                {
-                    if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                        throw new Exception();
-                    throw new Exception("PUT Call failure");
-                }
+            if (result.IsSuccessStatusCode)
+            {
+                var resultString = result.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<T>(resultString);
+            }
+            else
+            {
+                if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    throw new Exception();
+                throw new Exception("PUT Call failure");
             }
         }
         #endregion

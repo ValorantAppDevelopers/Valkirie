@@ -50,6 +50,8 @@
     </mah:MetroWindow.LeftWindowCommands>
 
     <Grid>
+        <mah:ProgressRing IsActive="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged}"/>
+
         <mah:HamburgerMenu
             x:Name="HamburgerMenuControl"
             DisplayMode="CompactInline"

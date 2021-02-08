@@ -32,12 +32,21 @@ namespace Valkirie.Client.Components.Window.LoginPopup
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            if(loginViewModel.IsPasswordTextVisible == Visibility.Visible)
+            {
+                loginViewModel.IsPasswordTextVisible = Visibility.Collapsed;
+                loginViewModel.IsPasswordVisible = Visibility.Visible;
+            }
+            else
+            {
+                loginViewModel.IsPasswordTextVisible = Visibility.Visible;
+                loginViewModel.IsPasswordVisible = Visibility.Collapsed;
+            }
         }
 
         private void password_PasswordChanged(object sender, RoutedEventArgs e)
         {
-
+            loginViewModel.Password = password.Password;
         }
     }
 }

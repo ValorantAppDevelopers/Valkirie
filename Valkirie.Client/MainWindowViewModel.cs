@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Input;
 using Valkirie.Client.Components.Window.LoginPopup;
 using Valkirie.Client.Utilities;
 
@@ -15,18 +16,66 @@ namespace Valkirie.Client
         private LoginView loginView;
 
         #region Prop
-        private ObservableCollection<HamburgerMenuGlyphItem> _hamburgerMenuGlyphItems;
+        private ObservableCollection<HamburgerMenuGlyphItem> hamburgerMenuGlyphItems;
+        private ObservableCollection<HamburgerMenuGlyphItem> hamburgerMenuGlyphItemsOption;
+        private HamburgerMenuGlyphItem selectedPage;
+        private HamburgerMenuGlyphItem selectedOption;
+
+        public string Username => appManager.Username;
+        public bool IsLoading => appManager.IsLoading;
 
         public ObservableCollection<HamburgerMenuGlyphItem> HamburgerMenuGlyphItems
         {
-            get => _hamburgerMenuGlyphItems;
+            get => hamburgerMenuGlyphItems;
 
             set
             {
-                if (_hamburgerMenuGlyphItems != value)
+                if (hamburgerMenuGlyphItems != value)
                 {
-                    _hamburgerMenuGlyphItems = value;
+                    hamburgerMenuGlyphItems = value;
                     NotifyPropertyChanged(nameof(HamburgerMenuGlyphItems));
+                }
+            }
+        }
+        
+        public ObservableCollection<HamburgerMenuGlyphItem> HamburgerMenuGlyphItemsOption
+        {
+            get => hamburgerMenuGlyphItemsOption;
+
+            set
+            {
+                if (hamburgerMenuGlyphItemsOption != value)
+                {
+                    hamburgerMenuGlyphItemsOption = value;
+                    NotifyPropertyChanged(nameof(HamburgerMenuGlyphItemsOption));
+                }
+            }
+        }
+
+        public HamburgerMenuGlyphItem SelectedPage
+        {
+            get => selectedPage;
+
+            set
+            {
+                if (selectedPage != value)
+                {
+                    selectedPage = value;
+                    NotifyPropertyChanged(nameof(SelectedPage));
+                }
+            }
+        }
+
+        public HamburgerMenuGlyphItem SelectedOption
+        {
+            get => selectedOption;
+
+            set
+            {
+                if (selectedOption != value)
+                {
+                    selectedOption = value;
+                    NotifyPropertyChanged(nameof(SelectedOption));
                 }
             }
         }
@@ -36,8 +85,9 @@ namespace Valkirie.Client
         public MainWindowViewModel(AppManager appManager)
         {
             this.appManager = appManager;
-            loginView = new LoginView(appManager);
-            loginView.ShowDialog();
+
+            appManager.propertyChanged += AppManager_propertyChanged;
+            LoginViewButton.Execute(null);
 
             HamburgerMenuGlyphItems = new ObservableCollection<HamburgerMenuGlyphItem>();
 
@@ -53,10 +103,53 @@ namespace Valkirie.Client
                 Tag = "rank",
                 Glyph = "Graphline" //Use icon as Glyph beacuse it is a string Type
             });
+
+            HamburgerMenuGlyphItemsOption = new ObservableCollection<HamburgerMenuGlyphItem>();
+
+            HamburgerMenuGlyphItemsOption.Add(new HamburgerMenuGlyphItem()
+            {
+                Label = Username,
+                Tag = "login",
+                Glyph = "User",
+                Command = LoginViewButton
+            });
         }
         #endregion
 
-        #region Ctr
+        #region Commands
+        private ICommand loginViewButton;
+        public ICommand LoginViewButton
+        {
+            get
+            {
+                if (loginViewButton == null)
+                {
+                    loginViewButton = new RelayCommands(obj =>
+                    {
+                        loginView = new LoginView(appManager);
+                        loginView.ShowDialog();
+                        SelectedOption = null;
+                    }, obj => true);
+                }
+                return loginViewButton;
+            }
+        }
+        #endregion
+
+        #region Events
+        private void AppManager_propertyChanged(object sender, dynamic e)
+        {
+            if (sender.ToString() == nameof(appManager.Username))
+            {
+                NotifyPropertyChanged(nameof(Username));
+            }
+            
+            if (sender.ToString() == nameof(appManager.IsLoading))
+            {
+                NotifyPropertyChanged(nameof(IsLoading));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)
         {

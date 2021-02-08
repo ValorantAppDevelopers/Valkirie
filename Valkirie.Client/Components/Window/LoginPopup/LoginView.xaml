@@ -13,6 +13,7 @@
                  WindowStartupLocation="CenterScreen"                 
                  Height="600" Width="450">
     <Grid>
+
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/login_banner_1200x630.jpg"
                         Stretch="UniformToFill"
@@ -43,6 +44,8 @@
                 </TextBlock.Effect>
             </TextBlock>
         </Grid>
+        
+        <mah:ProgressRing IsActive="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Grid Grid.Row="1">
             <StackPanel
@@ -75,6 +78,7 @@
                         <PasswordBox
                             PasswordChanged="password_PasswordChanged"
                             Margin="50,0,50,0"
+                            Visibility="{Binding IsPasswordVisible,UpdateSourceTrigger=PropertyChanged}"
                             Width="300"
                             BorderBrush="Black"
                             Background="White"
@@ -83,7 +87,7 @@
                             FontSize="30"
                             x:Name="password"/>
                         <TextBox
-                            Visibility="Collapsed"
+                            Visibility="{Binding IsPasswordTextVisible,UpdateSourceTrigger=PropertyChanged}"
                             Width="300"
                             Text="{Binding Password}"
                             Margin="50,0,50,0"
@@ -95,24 +99,16 @@
                             x:Name="passwordText"/>
                     </StackPanel>
 
-                    <Button Width="45"
-                            Height="45"
+                    <Button Width="50"
+                            Height="50"
                             Margin="-45,45,0,0"
                             Background="Transparent"
-                            BorderThickness="0">
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                </Trigger>
-                            </Style.Triggers>
-                            <!--<Setter Property="Content">
-                                <Setter.Value>
-                                    <iconPacks:PackIconModern Width="30" Height="30" Kind="Eye" />
-                                </Setter.Value>
-                            </Setter>-->
-                        </Style>
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            BorderThickness="0"
+                            Content="👁️"
+                            FontSize="25"
+                            Click="Button_Click">
                     </Button>
 
                     <!--<iconPacks:PackIconModern Kind="Eye" 
