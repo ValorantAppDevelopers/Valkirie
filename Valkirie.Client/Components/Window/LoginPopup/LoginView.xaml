@@ -26,6 +26,7 @@
             <RowDefinition Height="2.5*"/>
         </Grid.RowDefinitions>
 
+
         <Grid Grid.Row="0">
             <TextBlock
                 Text="Valkirie"
@@ -44,9 +45,7 @@
                 </TextBlock.Effect>
             </TextBlock>
         </Grid>
-        
         <mah:ProgressRing IsActive="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged}"/>
-
         <Grid Grid.Row="1">
             <StackPanel
                 Orientation="Vertical">

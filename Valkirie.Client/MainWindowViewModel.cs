@@ -22,6 +22,7 @@ namespace Valkirie.Client
         private HamburgerMenuGlyphItem selectedOption;
 
         public string Username => appManager.Username;
+        public string Tag => appManager.Tag;
         public bool IsLoading => appManager.IsLoading;
 
         public ObservableCollection<HamburgerMenuGlyphItem> HamburgerMenuGlyphItems
@@ -108,7 +109,7 @@ namespace Valkirie.Client
 
             HamburgerMenuGlyphItemsOption.Add(new HamburgerMenuGlyphItem()
             {
-                Label = Username,
+                Label = Username + "#" + Tag,
                 Tag = "login",
                 Glyph = "User",
                 Command = LoginViewButton

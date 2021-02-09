@@ -48,7 +48,7 @@ namespace Valkirie.Client.Utilities
                 if(uuid != value)
                 {
                     uuid = value;
-                    NotifyPropertyChanged(nameof(UUID),Tag);
+                    NotifyPropertyChanged(nameof(UUID), UUID);
                 }
             }
         }

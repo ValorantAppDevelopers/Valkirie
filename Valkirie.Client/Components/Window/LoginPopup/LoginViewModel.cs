@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using Valkirie.Client.Utilities;
+using static Valkirie.Client.Utilities.ValorantCustomRequest;
 using static ValorantNET.Enums;
 
 namespace Valkirie.Client.Components.Window.LoginPopup
@@ -171,17 +172,18 @@ namespace Valkirie.Client.Components.Window.LoginPopup
             }
         }
 
-        private void ValorantCustomRequest_loginReceived(object sender, string e)
+        private void ValorantCustomRequest_loginReceived(object sender, PlayerDTO e)
         {
-            if (!string.IsNullOrEmpty(e))
+            if (!string.IsNullOrEmpty(e?.DisplayName))
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     this.loginView.Close();
                 });
 
-                appManager.Username = Username;
-                appManager.UUID = e;
+                appManager.Username = e.DisplayName;
+                appManager.UUID = e.PlayerId;
+                appManager.Tag = e.TagLine;
 
                 appManager.IsLoading = false;
             }

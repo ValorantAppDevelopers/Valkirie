@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Valkirie.Client.Utilities
         private string endpoint;
         private HttpClient session;
 
-        public event EventHandler<string> loginReceived;
+        public event EventHandler<PlayerDTO> loginReceived;
 
         public ValorantCustomRequest(string username, string password, Regions region)
         {
@@ -77,8 +78,11 @@ namespace Valkirie.Client.Utilities
             var task = new Task(async () =>
             {
                 GetEntitlementsToken();
-                string result = Post<dynamic>("https://auth.riotgames.com/userinfo", "").sub;
-                loginReceived?.Invoke(this, result);
+                dynamic data = new JObject();
+                string playerId = Post<dynamic>($"https://auth.riotgames.com/userinfo", data).sub;
+                data = "[\"" + playerId + "\"]";
+                List<PlayerDTO> result = Put<List<PlayerDTO>>($"{endpoint}name-service/v2/players", data);
+                loginReceived?.Invoke(this, result.FirstOrDefault());
             });
             task.Start();
         }
@@ -152,6 +156,15 @@ namespace Valkirie.Client.Utilities
                 public string uri { get; set; }
             }
 
+        }
+
+        public class PlayerDTO
+        {
+            public string DisplayName { get; set; }
+            [JsonProperty("Subject")]
+            public string PlayerId { get; set; }
+            public string GameName { get; set; }
+            public string TagLine { get; set; }
         }
     }
 }
