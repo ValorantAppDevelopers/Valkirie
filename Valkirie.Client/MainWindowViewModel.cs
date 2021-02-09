@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Valkirie.Client.Components.View.Overview;
@@ -163,6 +164,10 @@ namespace Valkirie.Client
                     {
                         loginView = new LoginView(appManager);
                         loginView.ShowDialog();
+
+                        if (appManager.UUID == null)
+                            Application.Current.Shutdown();
+
                         SelectedOption = null;
                     }, obj => true);
                 }

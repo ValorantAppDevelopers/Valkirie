@@ -27,7 +27,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
         private Visibility isPasswordTextVisible = Visibility.Collapsed;
 
         public bool IsLoading => appManager.IsLoading;
-        public bool LoginEnable => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password) && !IsLoading;
+        public bool LoginEnable => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(SelectedRegion) && !IsLoading;
         public Visibility IsPasswordVisible
         {
             get => isPasswordVisible;
@@ -110,6 +110,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                 {
                     selectedRegion = value;
                     NotifyPropertyChanged(nameof(SelectedRegion));
+                    NotifyPropertyChanged(nameof(LoginEnable));
                 }
             }
         }
@@ -163,6 +164,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                     loginButton = new RelayCommands(obj =>
                     {
                         appManager.IsLoading = true;
+                        NotifyPropertyChanged(nameof(LoginEnable));
                         valorantCustomRequest = new ValorantCustomRequest(Username, Password, ValorantNET.Enums.Regions.EU);
                         valorantCustomRequest.loginReceived += ValorantCustomRequest_loginReceived;
                         //this.loginView.Close();
@@ -174,18 +176,18 @@ namespace Valkirie.Client.Components.Window.LoginPopup
 
         private void ValorantCustomRequest_loginReceived(object sender, PlayerDTO e)
         {
-            if (!string.IsNullOrEmpty(e?.DisplayName))
+            if (!string.IsNullOrEmpty(e?.PlayerId))
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.loginView.Close();
-                });
-
                 appManager.Username = e.DisplayName;
                 appManager.UUID = e.PlayerId;
                 appManager.Tag = e.TagLine;
 
                 appManager.IsLoading = false;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.loginView.Close();
+                });
             }
         }
         #endregion
