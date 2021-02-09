@@ -1,9 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,21 +13,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Valkirie.Client.Utilities;
 
-namespace Valkirie.Client
+namespace Valkirie.Client.Components.View.Rank
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for RanksView.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class RankView : MetroContentControl
     {
-        private MainWindowViewModel mainWindowViewModel;
-        private AppManager appManager;
-        public MainWindow()
+        public RankView(AppManager appManager)
         {
             InitializeComponent();
-            appManager = new AppManager();
-            mainWindowViewModel = new MainWindowViewModel(appManager,this);
-            DataContext = mainWindowViewModel;
         }
     }
 }

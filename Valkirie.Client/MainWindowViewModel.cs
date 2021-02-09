@@ -3,8 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
+using Valkirie.Client.Components.View.Overview;
+using Valkirie.Client.Components.View.Rank;
 using Valkirie.Client.Components.Window.LoginPopup;
 using Valkirie.Client.Utilities;
 
@@ -13,7 +17,10 @@ namespace Valkirie.Client
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private AppManager appManager;
+        private MainWindow mainWindow;
         private LoginView loginView;
+        private OverviewView overviewView;
+        private RankView rankView;
 
         #region Prop
         private ObservableCollection<HamburgerMenuGlyphItem> hamburgerMenuGlyphItems;
@@ -63,6 +70,7 @@ namespace Valkirie.Client
                 {
                     selectedPage = value;
                     NotifyPropertyChanged(nameof(SelectedPage));
+                    ChangeView(SelectedPage);
                 }
             }
         }
@@ -77,15 +85,17 @@ namespace Valkirie.Client
                 {
                     selectedOption = value;
                     NotifyPropertyChanged(nameof(SelectedOption));
+                    ChangeView(SelectedOption);
                 }
             }
         }
         #endregion
 
         #region Ctr
-        public MainWindowViewModel(AppManager appManager)
+        public MainWindowViewModel(AppManager appManager, MainWindow mainWindow)
         {
             this.appManager = appManager;
+            this.mainWindow = mainWindow;
 
             appManager.propertyChanged += AppManager_propertyChanged;
             LoginViewButton.Execute(null);
@@ -96,6 +106,7 @@ namespace Valkirie.Client
             {
                 Label = "Overview",
                 Tag = "overview",
+                TargetPageType = new OverviewView(appManager).GetType(),
                 Glyph = "InformationCircle" //Use icon as Glyph beacuse it is a string Type
             });
             HamburgerMenuGlyphItems.Add(new HamburgerMenuGlyphItem()
@@ -114,6 +125,29 @@ namespace Valkirie.Client
                 Glyph = "User",
                 Command = LoginViewButton
             });
+
+            ChangeView(HamburgerMenuGlyphItems.First());
+        }
+        #endregion
+
+        #region Methods
+        public void ChangeView(HamburgerMenuGlyphItem item)
+        {
+            switch (item.Tag)
+            {
+                case "overview":
+                    if (overviewView == null)
+                        overviewView = new OverviewView(appManager);
+                    mainWindow.HamburgerMenuControl.Content = (overviewView);
+                    break;
+                case "rank":
+                    if (rankView == null)
+                        rankView = new RankView(appManager);
+                    mainWindow.HamburgerMenuControl.Content = (rankView);
+                    break;
+                default:
+                    break;
+            }
         }
         #endregion
 
