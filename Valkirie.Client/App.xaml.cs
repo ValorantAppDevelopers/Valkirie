@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using ControlzEx.Theming;
+using Valkirie.Client.Utilities;
 
 namespace Valkirie.Client
 {
@@ -24,6 +25,8 @@ namespace Valkirie.Client
             ThemeManager.Current.AddTheme(RuntimeThemeGenerator.Current.GenerateRuntimeTheme("Light", Colors.Red));
 
             ThemeManager.Current.ChangeTheme(this, "Dark.Red");
+
+            UserConfig.CheckUserConfigFile();
         }
     }
 }

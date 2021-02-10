@@ -134,7 +134,7 @@ namespace Valkirie.Client
         #region Methods
         public void ChangeView(HamburgerMenuGlyphItem item)
         {
-            switch (item.Tag)
+            switch (item?.Tag)
             {
                 case "overview":
                     if (overviewView == null)

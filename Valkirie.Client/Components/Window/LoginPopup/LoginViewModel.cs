@@ -139,6 +139,16 @@ namespace Valkirie.Client.Components.Window.LoginPopup
             appManager.propertyChanged += AppManager_propertyChanged;
 
             RegisterRegions();
+
+            if (this.appManager.UserConfigApplication.RememberMe && this.appManager.Username == null)
+            {
+                SelectedRegion = this.appManager.UserConfigApplication.Region;
+                Username = this.appManager.UserConfigApplication.Username;
+                Password = this.appManager.UserConfigApplication.Password;
+                StaySignedChecked = this.appManager.UserConfigApplication.RememberMe;
+
+                LoginButton.Execute(null);
+            }
         }
         #endregion
 
@@ -183,6 +193,27 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                 appManager.Tag = e.TagLine;
 
                 appManager.IsLoading = false;
+
+                if (StaySignedChecked)
+                {
+                    UserConfig.SaveUserConfig(new UserConfig.UserConfigXml()
+                    {
+                        Username = Username,
+                        Password = Password,
+                        Region = SelectedRegion,
+                        RememberMe = StaySignedChecked
+                    });
+                }
+                else
+                {
+                    UserConfig.SaveUserConfig(new UserConfig.UserConfigXml()
+                    {
+                        Username = "null",
+                        Password = "null",
+                        Region = "null",
+                        RememberMe = false
+                    });
+                }
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {

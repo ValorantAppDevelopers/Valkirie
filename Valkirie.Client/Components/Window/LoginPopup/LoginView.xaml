@@ -10,8 +10,9 @@
                  ResizeMode="NoResize"
                  ShowMinButton="False"
                  ShowMaxRestoreButton="False"
-                 WindowStartupLocation="CenterScreen"                 
-                 Height="600" Width="450">
+                 WindowStartupLocation="CenterScreen"
+                 Height="600"
+                 Width="450">
     <Grid>
 
         <Grid.Background>
@@ -22,80 +23,72 @@
         </Grid.Background>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2.5*" />
         </Grid.RowDefinitions>
 
 
         <Grid Grid.Row="0">
-            <TextBlock
-                Text="Valkirie"
-                Foreground="White"
-                FontSize="70"
-                FontFamily="{StaticResource ValorantFont}"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+            <TextBlock Text="Valkirie"
+                       Foreground="White"
+                       FontSize="70"
+                       FontFamily="{StaticResource ValorantFont}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
                 <TextBlock.Effect>
-                    <DropShadowEffect
-                    ShadowDepth="8"
-                    Direction="320"
-                    Color="Black"
-                    Opacity="0.5"
-                    BlurRadius="1"/>
+                    <DropShadowEffect ShadowDepth="8"
+                                      Direction="320"
+                                      Color="Black"
+                                      Opacity="0.5"
+                                      BlurRadius="1" />
                 </TextBlock.Effect>
             </TextBlock>
         </Grid>
-        <mah:ProgressRing IsActive="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged}"/>
+        <mah:ProgressRing IsActive="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged}" />
         <Grid Grid.Row="1">
-            <StackPanel
-                Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
                 <StackPanel>
-                    <TextBlock
-                        Text="USERNAME"
-                        FontFamily="{StaticResource ValorantFont}"             
-                        Foreground="White"
-                        Margin="50,0,0,0"
-                        FontSize="15"/>
-                    <TextBox
-                        Margin="50,0,50,0"
-                        BorderBrush="Black"
-                        Background="White"
-                        Foreground="Black"
-                        BorderThickness="2"
-                        FontSize="30"
-                        Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="USERNAME"
+                               FontFamily="{StaticResource ValorantFont}"
+                               Foreground="White"
+                               Margin="50,0,0,0"
+                               FontSize="15" />
+                    <TextBox Margin="50,0,50,0"
+                             BorderBrush="Black"
+                             Background="White"
+                             Foreground="Black"
+                             BorderThickness="2"
+                             FontSize="30"
+                             Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock
-                            Text="PASSWORD"
-                            FontFamily="{StaticResource ValorantFont}"             
-                            Foreground="White"
-                            Margin="50,30,0,0"
-                            FontSize="15"/>
-                        <PasswordBox
-                            PasswordChanged="password_PasswordChanged"
-                            Margin="50,0,50,0"
-                            Visibility="{Binding IsPasswordVisible,UpdateSourceTrigger=PropertyChanged}"
-                            Width="300"
-                            BorderBrush="Black"
-                            Background="White"
-                            Foreground="Black"
-                            BorderThickness="2"
-                            FontSize="30"
-                            x:Name="password"/>
-                        <TextBox
-                            Visibility="{Binding IsPasswordTextVisible,UpdateSourceTrigger=PropertyChanged}"
-                            Width="300"
-                            Text="{Binding Password}"
-                            Margin="50,0,50,0"
-                            Background="White"
-                            BorderBrush="Black"
-                            Foreground="Black"
-                            BorderThickness="2"
-                            FontSize="30"
-                            x:Name="passwordText"/>
+                        <TextBlock Text="PASSWORD"
+                                   FontFamily="{StaticResource ValorantFont}"
+                                   Foreground="White"
+                                   Margin="50,30,0,0"
+                                   FontSize="15" />
+                        <PasswordBox PasswordChanged="password_PasswordChanged"
+                                     Margin="50,0,50,0"
+                                     Visibility="{Binding IsPasswordVisible,UpdateSourceTrigger=PropertyChanged}"
+                                     Width="300"
+                                     BorderBrush="Black"
+                                     Background="White"
+                                     Foreground="Black"
+                                     BorderThickness="2"
+                                     FontSize="30"
+                                     x:Name="password" />
+                        <TextBox Visibility="{Binding IsPasswordTextVisible,UpdateSourceTrigger=PropertyChanged}"
+                                 Width="300"
+                                 Text="{Binding Password}"
+                                 Margin="50,0,50,0"
+                                 Background="White"
+                                 BorderBrush="Black"
+                                 Foreground="Black"
+                                 BorderThickness="2"
+                                 FontSize="30"
+                                 x:Name="passwordText" />
                     </StackPanel>
 
                     <Button Width="50"
@@ -116,7 +109,7 @@
                         Margin="-40,55,0,0">
                         
                     </iconPacks:PackIconModern>-->
-                    
+
                     <!--<Button
                         Click="Button_Click"
                         Width="70"
@@ -128,60 +121,57 @@
                     </Button>-->
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="0,0,0,0">
-                    <TextBlock
-                        Text="Region"
-                        FontFamily="{StaticResource ValorantFont}"
-                        Foreground="White"
-                        Margin="50,30,0,0"
-                        FontSize="15"/>
-                    <ComboBox
-                        Width="100"
-                        HorizontalAlignment="Left"
-                        Margin="50,0,0,0"
-                        BorderBrush="Black"
-                        Background="White"
-                        Foreground="Black"
-                        ItemsSource="{Binding Path=Regions, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedItem="{Binding SelectedRegion, UpdateSourceTrigger=PropertyChanged}">
+                <StackPanel Orientation="Vertical"
+                            Margin="0,0,0,0">
+                    <TextBlock Text="Region"
+                               FontFamily="{StaticResource ValorantFont}"
+                               Foreground="White"
+                               Margin="50,30,0,0"
+                               FontSize="15" />
+                    <ComboBox Width="100"
+                              HorizontalAlignment="Left"
+                              Margin="50,0,0,0"
+                              BorderBrush="Black"
+                              Background="White"
+                              Foreground="Black"
+                              ItemsSource="{Binding Path=Regions, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedRegion, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Key}"/>
+                                <TextBlock Text="{Binding Path=Key}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="50,40,0,0">
-                    <CheckBox
-                        IsEnabled="False"
-                        IsChecked="{Binding StaySignedChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        Width="25"
-                        Height="25"
-                        BorderBrush="Red"
-                        BorderThickness="1"/>
+                <StackPanel Orientation="Horizontal"
+                            Margin="50,40,0,0">
+                    <CheckBox IsEnabled="True"
+                              IsChecked="{Binding StaySignedChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              Width="25"
+                              Height="25"
+                              BorderBrush="Red"
+                              BorderThickness="1" />
 
-                    <TextBlock
-                        Text="Stay Signed In [On next update]"
-                        FontFamily="{StaticResource ValorantFont}"
-                        Foreground="White"
-                        FontSize="20"
-                        VerticalAlignment="Center"
-                        Margin="10,0,0,0"/>
+                    <TextBlock Text="Stay Signed In"
+                               FontFamily="{StaticResource ValorantFont}"
+                               Foreground="White"
+                               FontSize="20"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0" />
                 </StackPanel>
 
-                <Button
-                    Content="Login"
-                    Margin="50,30,50,30"
-                    Padding="8"
-                    FontFamily="{StaticResource ValorantFont}"
-                    FontSize="20"
-                    VerticalContentAlignment="Center"
-                    Foreground="White"
-                    Cursor="Hand"
-                    BorderThickness="0"
-                    IsEnabled="{Binding LoginEnable, UpdateSourceTrigger=PropertyChanged}"
-                    Command="{Binding LoginButton, UpdateSourceTrigger=PropertyChanged}">
+                <Button Content="Login"
+                        Margin="50,30,50,30"
+                        Padding="8"
+                        FontFamily="{StaticResource ValorantFont}"
+                        FontSize="20"
+                        VerticalContentAlignment="Center"
+                        Foreground="White"
+                        Cursor="Hand"
+                        BorderThickness="0"
+                        IsEnabled="{Binding LoginEnable, UpdateSourceTrigger=PropertyChanged}"
+                        Command="{Binding LoginButton, UpdateSourceTrigger=PropertyChanged}">
                 </Button>
             </StackPanel>
         </Grid>

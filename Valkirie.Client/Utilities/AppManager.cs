@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using static Valkirie.Client.Utilities.UserConfig;
 
 namespace Valkirie.Client.Utilities
 {
@@ -14,6 +15,7 @@ namespace Valkirie.Client.Utilities
 
         public event EventHandler<dynamic> propertyChanged;
 
+        public UserConfigXml UserConfigApplication;
         public string Username
         {
             get => username;
@@ -68,7 +70,7 @@ namespace Valkirie.Client.Utilities
 
         public AppManager()
         {
-
+            UserConfigApplication = UserConfig.GetUserConfig();
         }
 
         public void NotifyPropertyChanged(string propertyname, dynamic attribute)
