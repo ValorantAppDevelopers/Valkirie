@@ -7,9 +7,10 @@ namespace Valkirie.Client.Components.Page.Overview
 {
     public class OverviewViewModel
     {
+        private AppManager appManager;
         public OverviewViewModel(AppManager appManager)
         {
-
+            this.appManager = appManager;
         }
     }
 }

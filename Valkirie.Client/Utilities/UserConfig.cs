@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using static ValorantNET.Enums;
 
 namespace Valkirie.Client.Utilities
 {
@@ -17,9 +18,11 @@ namespace Valkirie.Client.Utilities
             [XmlElement(ElementName = "Password")]
             public string Password { get; set; }
             [XmlElement(ElementName = "Region")]
-            public string Region { get; set; }
+            public Regions Region { get; set; }
             [XmlElement(ElementName = "RememberMe")]
             public bool RememberMe { get; set; }
+            [XmlElement(ElementName = "LastUpdate")]
+            public DateTime LastUpdate { get; set; }
         }
 
         private static string XmlPath = @".\UserConfig.xml";
@@ -36,6 +39,7 @@ namespace Valkirie.Client.Utilities
 
         public static void SaveUserConfig(UserConfigXml userConfig)
         {
+            userConfig.LastUpdate = DateTime.UtcNow;
             XmlSerializer xml = new XmlSerializer(typeof(UserConfigXml));
             TextWriter writer = new StreamWriter(XmlPath);
             xml.Serialize(writer, userConfig);
@@ -52,7 +56,7 @@ namespace Valkirie.Client.Utilities
             {
                 Username = "null",
                 Password = "null",
-                Region = "null",
+                Region = Regions.EU,
                 RememberMe = false
             });
         }

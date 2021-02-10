@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using Valkirie.Client.Utilities;
+using ValorantNET;
 using static Valkirie.Client.Utilities.ValorantCustomRequest;
 using static ValorantNET.Enums;
 
@@ -22,6 +23,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
         private string password;
         private Dictionary<string,Regions> regions;
         private string selectedRegion;
+        private Regions selectedRegionEnum;
         private bool staySignedChecked;
         private Visibility isPasswordVisible = Visibility.Visible;
         private Visibility isPasswordTextVisible = Visibility.Collapsed;
@@ -110,7 +112,22 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                 {
                     selectedRegion = value;
                     NotifyPropertyChanged(nameof(SelectedRegion));
+                    SelectedRegionEnum = (Regions)Enum.Parse(typeof(Regions), SelectedRegion.Split(',')[1].Replace("]",""));
                     NotifyPropertyChanged(nameof(LoginEnable));
+                }
+            }
+        }
+
+        public Regions SelectedRegionEnum
+        {
+            get => selectedRegionEnum;
+
+            set
+            {
+                if (selectedRegionEnum != value)
+                {
+                    selectedRegionEnum = value;
+                    NotifyPropertyChanged(nameof(SelectedRegionEnum));
                 }
             }
         }
@@ -142,7 +159,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
 
             if (this.appManager.UserConfigApplication.RememberMe && this.appManager.Username == null)
             {
-                SelectedRegion = this.appManager.UserConfigApplication.Region;
+                SelectedRegionEnum = this.appManager.UserConfigApplication.Region;
                 Username = this.appManager.UserConfigApplication.Username;
                 Password = this.appManager.UserConfigApplication.Password;
                 StaySignedChecked = this.appManager.UserConfigApplication.RememberMe;
@@ -175,7 +192,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                     {
                         appManager.IsLoading = true;
                         NotifyPropertyChanged(nameof(LoginEnable));
-                        valorantCustomRequest = new ValorantCustomRequest(Username, Password, ValorantNET.Enums.Regions.EU);
+                        valorantCustomRequest = new ValorantCustomRequest(Username, Password, SelectedRegionEnum);
                         valorantCustomRequest.loginReceived += ValorantCustomRequest_loginReceived;
                         //this.loginView.Close();
                     }, obj => true);
@@ -191,6 +208,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                 appManager.Username = e.DisplayName;
                 appManager.UUID = e.PlayerId;
                 appManager.Tag = e.TagLine;
+                appManager.ValorantClient = new ValorantClient(e.DisplayName, e.TagLine, SelectedRegionEnum);
 
                 appManager.IsLoading = false;
 
@@ -200,7 +218,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                     {
                         Username = Username,
                         Password = Password,
-                        Region = SelectedRegion,
+                        Region = SelectedRegionEnum,
                         RememberMe = StaySignedChecked
                     });
                 }
@@ -210,7 +228,7 @@ namespace Valkirie.Client.Components.Window.LoginPopup
                     {
                         Username = "null",
                         Password = "null",
-                        Region = "null",
+                        Region = Enums.Regions.EU,
                         RememberMe = false
                     });
                 }
