@@ -17,6 +17,8 @@ namespace Valkirie.Client.Components.Page.Overview
         private string playTime;
 
         public string Username => appManager.Username + "#" + appManager.Tag;
+        public bool IsLoading => appManager.IsLoading;
+
 
         public float KDA
         {
@@ -63,10 +65,12 @@ namespace Valkirie.Client.Components.Page.Overview
         public OverviewViewModel(AppManager appManager)
         {
             this.appManager = appManager;
+            appManager.propertyChanged += AppManager_propertyChanged;
             this.overviewModel = new OverviewModel(this.appManager);
             RefreshContent();
             this.overviewModel.statsReceived += OverviewModel_statsReceived;
         }
+
 
         private ICommand refresh;
         public ICommand Refresh
@@ -100,6 +104,14 @@ namespace Valkirie.Client.Components.Page.Overview
             }
 
             appManager.IsLoading = false;
+        }
+
+        private void AppManager_propertyChanged(object sender, dynamic e)
+        {
+            if(sender.ToString() == nameof(appManager.IsLoading))
+            {
+                NotifyPropertyChanged(nameof(IsLoading));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

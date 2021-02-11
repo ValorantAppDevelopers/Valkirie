@@ -6,6 +6,7 @@
                  xmlns:local="clr-namespace:Valkirie.Client.Components.Window.LoginPopup"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:utilities="clr-namespace:Valkirie.Client.Utilities"
                  mc:Ignorable="d"
                  ResizeMode="NoResize"
                  ShowMinButton="False"
@@ -13,7 +14,10 @@
                  WindowStartupLocation="CenterScreen"
                  Height="600"
                  Width="450">
-    <Grid>
+    <mah:MetroWindow.Resources>
+        <utilities:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </mah:MetroWindow.Resources>
+    <Grid IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}">
 
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/login_banner_1200x630.jpg"
