@@ -5,11 +5,77 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                 xmlns:local="clr-namespace:Valkirie.Client.Components.Page.Overview"
                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                 mc:Ignorable="d" 
                 d:DesignHeight="450" d:DesignWidth="800"
-                 Background="White">
+                FontFamily="Sans"
+                Background="White">
+    <mah:MetroContentControl.Resources>
+        <Style x:Key="ViewStats" TargetType="TextBlock">
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="Margin" Value="5,5,5,5"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="TextAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </mah:MetroContentControl.Resources>
 
     <Grid>
-        <Label>Overview Works!</Label>
+        <StackPanel Margin="10"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center"
+                    Background="#383838">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        ToolTip="Refresh"
+                        Margin="5,5,5,5"
+                        Width="40"
+                        Height="40"
+                        BorderThickness="0"
+                        Focusable="False"
+                        Command="{Binding Refresh}">
+                    <iconPacks:PackIconModern Kind="Refresh" />
+                </Button>
+
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Username}"
+                           Style="{StaticResource ViewStats}" />
+
+                <TextBlock Grid.Column="2"
+                           Style="{StaticResource ViewStats}">
+                    <Run Text="KDA -"></Run>
+                    <Run Text="{Binding KDA}"></Run>
+                </TextBlock>
+
+                <TextBlock Grid.Column="3"
+                           Style="{StaticResource ViewStats}">
+                    <Run Text="Win Percentage -"></Run>
+                    <Run Text="{Binding WinPerc, StringFormat={}{0}%}"></Run>
+                </TextBlock>
+
+                <TextBlock Grid.Column="4"
+                           Style="{StaticResource ViewStats}">
+                    <Run Text="Play Time -"></Run>
+                    <Run Text="{Binding PlayTime}"></Run>
+                </TextBlock>
+
+            </Grid>
+            <Button Content="Filter"
+                    FontSize="15"
+                    Margin="5,5,5,5"
+                    BorderThickness="0"
+                    Focusable="False"
+                    Padding="10" />
+        </StackPanel>
     </Grid>
 </mah:MetroContentControl>
