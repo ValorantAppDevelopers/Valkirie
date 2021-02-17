@@ -108,15 +108,23 @@
                            Grid.ColumnSpan="2"
                            Grid.Row="1"
                            Style="{StaticResource ViewStats}">
-                    <Run Text="KDA -"></Run>
+                    <Run Text="Total Matches -"></Run>
+                    <Run Text="{Binding NumberOfMatches}"></Run>
+                </TextBlock>
+                
+                <TextBlock Grid.Column="2"
+                           Grid.ColumnSpan="1"
+                           Grid.Row="1"
+                           Style="{StaticResource ViewStats}">
+                    <Run Text="K/D Ratio-"></Run>
                     <Run Text="{Binding KDA}"></Run>
                 </TextBlock>
 
-                <TextBlock Grid.Column="2"
-                           Grid.ColumnSpan="2"
+                <TextBlock Grid.Column="3"
+                           Grid.ColumnSpan="1"
                            Grid.Row="1"
                            Style="{StaticResource ViewStats}">
-                    <Run Text="Win Percentage -"></Run>
+                    <Run Text="Win % -"></Run>
                     <Run Text="{Binding WinPerc, StringFormat={}{0}%}"></Run>
                 </TextBlock>
 

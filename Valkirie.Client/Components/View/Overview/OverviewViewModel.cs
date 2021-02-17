@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Valkirie.Client.Utilities;
@@ -14,6 +15,7 @@ namespace Valkirie.Client.Components.Page.Overview
         private OverviewModel overviewModel;
 
         #region Prop
+        private int numberOfMatches;
         private float kda;
         private float winPerc;
         private string playTime;
@@ -25,6 +27,20 @@ namespace Valkirie.Client.Components.Page.Overview
 
         public bool IsLoading => appManager.IsLoading;
         public bool IsRefreshEnable => !string.IsNullOrEmpty(appManager.UUID);
+        public int NumberOfMatches
+        {
+            get => numberOfMatches;
+
+            set
+            {
+                if (numberOfMatches != value)
+                {
+                    numberOfMatches = value;
+                    NotifyPropertyChanged(nameof(NumberOfMatches));
+                }
+            }
+        }
+
         public float KDA
         {
             get => kda;
@@ -210,6 +226,7 @@ namespace Valkirie.Client.Components.Page.Overview
         {
             if(e != null)
             {
+                NumberOfMatches = e.stats.matches;
                 KDA = e.stats.kdratio;
                 WinPerc = e.stats.winpercentage;
                 PlayTime = e.stats.playtime.playtimepatched;
