@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Threading.Tasks;
 using ValorantNET;
 using static Valkirie.Client.Utilities.UserConfig;
+using static ValorantNET.Enums;
 
 namespace Valkirie.Client.Utilities
 {
@@ -11,13 +13,28 @@ namespace Valkirie.Client.Utilities
     {
         private string username;
         private string tag;
+        private Regions region;
         private string uuid;
         private bool isLoading;
+        private ValorantClient valorantClient;
 
         public event EventHandler<dynamic> propertyChanged;
 
         public UserConfigXml UserConfigApplication;
-        public ValorantClient ValorantClient;
+        public ValorantClient ValorantClient
+        {
+            get => valorantClient;
+            set
+            {
+                if (valorantClient != value)
+                {
+                    valorantClient = value;
+                    NotifyPropertyChanged(nameof(ValorantClient), ValorantClient);
+                    GetUUID();
+                }
+            }
+        }
+
         public string Username
         {
             get => username;
@@ -40,6 +57,20 @@ namespace Valkirie.Client.Utilities
                 {
                     tag = value;
                     NotifyPropertyChanged(nameof(Tag),Tag);
+                }
+            }
+        }
+
+        public Regions Region
+        {
+            get => region;
+
+            set
+            {
+                if (region != value)
+                {
+                    region = value;
+                    NotifyPropertyChanged(nameof(Region), Region);
                 }
             }
         }
@@ -73,6 +104,16 @@ namespace Valkirie.Client.Utilities
         public AppManager()
         {
             UserConfigApplication = GetUserConfig();
+        }
+
+        private void GetUUID()
+        {
+            var task = new Task(async () =>
+            {
+                var result = await ValorantClient.GetPUUIDAsync();
+                UUID = result.data.puuid;
+            });
+            task.Start();
         }
 
         public void NotifyPropertyChanged(string propertyname, dynamic attribute)

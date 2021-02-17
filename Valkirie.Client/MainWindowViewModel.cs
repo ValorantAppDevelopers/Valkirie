@@ -99,7 +99,7 @@ namespace Valkirie.Client
             this.mainWindow = mainWindow;
 
             appManager.propertyChanged += AppManager_propertyChanged;
-            LoginViewButton.Execute(null);
+            //LoginViewButton.Execute(null);
 
             HamburgerMenuGlyphItems = new ObservableCollection<HamburgerMenuGlyphItem>();
 
@@ -117,15 +117,15 @@ namespace Valkirie.Client
                 Glyph = "Graphline" //Use icon as Glyph beacuse it is a string Type
             });
 
-            HamburgerMenuGlyphItemsOption = new ObservableCollection<HamburgerMenuGlyphItem>();
+            //HamburgerMenuGlyphItemsOption = new ObservableCollection<HamburgerMenuGlyphItem>();
 
-            HamburgerMenuGlyphItemsOption.Add(new HamburgerMenuGlyphItem()
-            {
-                Label = Username + "#" + Tag,
-                Tag = "login",
-                Glyph = "User",
-                Command = LoginViewButton
-            });
+            //HamburgerMenuGlyphItemsOption.Add(new HamburgerMenuGlyphItem()
+            //{
+            //    Label = Username + "#" + Tag,
+            //    Tag = "login",
+            //    Glyph = "User",
+            //    Command = LoginViewButton
+            //});
 
             ChangeView(HamburgerMenuGlyphItems.First());
         }
