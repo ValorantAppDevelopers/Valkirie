@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Input;
 using Valkirie.Client.Utilities;
 using static ValorantNET.Enums;
+using static ValorantNET.Models.Player;
 
 namespace Valkirie.Client.Components.Page.Overview
 {
@@ -19,6 +20,12 @@ namespace Valkirie.Client.Components.Page.Overview
         private float kda;
         private float winPerc;
         private string playTime;
+        private string mostPlayedAgent;
+        private string agentName;
+        private int agentHS;
+        private float agentKD;
+        private int agentWins;
+        private string playerCard = "https://static.wikia.nocookie.net/valorant/images/e/e5/Developer_card.png/revision/latest/scale-to-width-down/536?cb=20200417011658";
         private Dictionary<string, Regions> regions;
         private string selectedRegion;
         private Regions selectedRegionEnum;
@@ -153,6 +160,90 @@ namespace Valkirie.Client.Components.Page.Overview
                 }
             }
         }
+
+        public string PlayerCard
+        {
+            get => playerCard;
+
+            set
+            {
+                if (playerCard != value)
+                {
+                    playerCard = value;
+                    NotifyPropertyChanged(nameof(PlayerCard));
+                }
+            }
+        }
+
+        public string MostPlayedAgent
+        {
+            get => mostPlayedAgent;
+
+            set
+            {
+                if (mostPlayedAgent != value)
+                {
+                    mostPlayedAgent = value;
+                    NotifyPropertyChanged(nameof(MostPlayedAgent));
+                }
+            }
+        }
+
+        public string AgentName
+        {
+            get => agentName;
+
+            set
+            {
+                if (agentName != value)
+                {
+                    agentName = value;
+                    NotifyPropertyChanged(nameof(AgentName));
+                }
+            }
+        }
+
+        public int AgentWins
+        {
+            get => agentWins;
+
+            set
+            {
+                if (agentWins != value)
+                {
+                    agentWins = value;
+                    NotifyPropertyChanged(nameof(AgentWins));
+                }
+            }
+        }
+
+        public float AgentKD
+        {
+            get => agentKD;
+
+            set
+            {
+                if (agentKD != value)
+                {
+                    agentKD = value;
+                    NotifyPropertyChanged(nameof(AgentKD));
+                }
+            }
+        }
+
+        public int AgentHS
+        {
+            get => agentHS;
+
+            set
+            {
+                if (agentHS != value)
+                {
+                    agentHS = value;
+                    NotifyPropertyChanged(nameof(AgentHS));
+                }
+            }
+        }
         #endregion
 
         #region Ctr
@@ -193,6 +284,7 @@ namespace Valkirie.Client.Components.Page.Overview
                 {
                     search = new RelayCommands(obj =>
                     {
+                        appManager.IsLoading = true;
                         appManager.Username = Username;
                         appManager.Tag = Tag;
                         appManager.Region = SelectedRegionEnum;
@@ -219,6 +311,20 @@ namespace Valkirie.Client.Components.Page.Overview
             appManager.IsLoading = true;
             overviewModel.GetGeneralStats();
         }
+
+        private Agent GetMostPlayedAgent(List<Agent> agents)
+        {
+            var mpa = agents.First();
+            foreach (var agent in agents)
+            {
+                if (agent.playtime.playtimedays >= mpa.playtime.playtimedays &&
+                   agent.playtime.playtimehours >= mpa.playtime.playtimehours &&
+                   agent.playtime.playtimeminutes >= mpa.playtime.playtimeminutes &&
+                   agent.playtime.playtimeseconds >= mpa.playtime.playtimeseconds)
+                    mpa = agent;
+            }
+            return mpa;
+        }
         #endregion
 
         #region Events
@@ -226,6 +332,14 @@ namespace Valkirie.Client.Components.Page.Overview
         {
             if(e != null)
             {
+                if(e.stats?.playercard != null)
+                    PlayerCard = e.stats.playercard;
+                var agent = GetMostPlayedAgent(e.agents.ToList());
+                AgentWins = agent.wins;
+                AgentKD = agent.kdratio;
+                AgentHS = agent.headshots;
+                MostPlayedAgent = agent.agenturl;
+                AgentName = agent.agent;
                 NumberOfMatches = e.stats.matches;
                 KDA = e.stats.kdratio;
                 WinPerc = e.stats.winpercentage;
