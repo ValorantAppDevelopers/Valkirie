@@ -37,7 +37,7 @@ namespace Valkirie.Client.CustomControls
             set { SetValue(TitleProp, value); }
         }
 
-        public object Value
+        public string Value
         {
             get { return (string)GetValue(ValueProp); }
             set { SetValue(ValueProp, value); }

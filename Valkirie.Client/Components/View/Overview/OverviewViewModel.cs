@@ -20,11 +20,7 @@ namespace Valkirie.Client.Components.Page.Overview
         private float kda;
         private float winPerc;
         private string playTime;
-        private string mostPlayedAgent;
-        private string agentName;
-        private int agentHS;
-        private float agentKD;
-        private int agentWins;
+        private Agent topAgent;
         private string playerCard = "https://static.wikia.nocookie.net/valorant/images/e/e5/Developer_card.png/revision/latest/scale-to-width-down/536?cb=20200417011658";
         private Dictionary<string, Regions> regions;
         private string selectedRegion;
@@ -175,72 +171,16 @@ namespace Valkirie.Client.Components.Page.Overview
             }
         }
 
-        public string MostPlayedAgent
+        public Agent TopAgent
         {
-            get => mostPlayedAgent;
+            get => topAgent;
 
             set
             {
-                if (mostPlayedAgent != value)
+                if(topAgent != value)
                 {
-                    mostPlayedAgent = value;
-                    NotifyPropertyChanged(nameof(MostPlayedAgent));
-                }
-            }
-        }
-
-        public string AgentName
-        {
-            get => agentName;
-
-            set
-            {
-                if (agentName != value)
-                {
-                    agentName = value;
-                    NotifyPropertyChanged(nameof(AgentName));
-                }
-            }
-        }
-
-        public int AgentWins
-        {
-            get => agentWins;
-
-            set
-            {
-                if (agentWins != value)
-                {
-                    agentWins = value;
-                    NotifyPropertyChanged(nameof(AgentWins));
-                }
-            }
-        }
-
-        public float AgentKD
-        {
-            get => agentKD;
-
-            set
-            {
-                if (agentKD != value)
-                {
-                    agentKD = value;
-                    NotifyPropertyChanged(nameof(AgentKD));
-                }
-            }
-        }
-
-        public int AgentHS
-        {
-            get => agentHS;
-
-            set
-            {
-                if (agentHS != value)
-                {
-                    agentHS = value;
-                    NotifyPropertyChanged(nameof(AgentHS));
+                    topAgent = value;
+                    NotifyPropertyChanged(nameof(TopAgent));
                 }
             }
         }
@@ -335,11 +275,8 @@ namespace Valkirie.Client.Components.Page.Overview
                 if(e.stats?.playercard != null)
                     PlayerCard = e.stats.playercard;
                 var agent = GetMostPlayedAgent(e.agents.ToList());
-                AgentWins = agent.wins;
-                AgentKD = agent.kdratio;
-                AgentHS = agent.headshots;
-                MostPlayedAgent = agent.agenturl;
-                AgentName = agent.agent;
+                TopAgent = agent;
+
                 NumberOfMatches = e.stats.matches;
                 KDA = e.stats.kdratio;
                 WinPerc = e.stats.winpercentage;

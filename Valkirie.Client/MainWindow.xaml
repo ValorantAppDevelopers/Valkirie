@@ -72,13 +72,8 @@
                            SelectedOptionsItem="{Binding SelectedOption, UpdateSourceTrigger=PropertyChanged}">
             <mah:HamburgerMenu.ContentTemplate>
                 <DataTemplate>
-                    <StackPanel VerticalAlignment="Stretch" Orientation="Vertical">
-                        <ContentControl
-                            Height="auto"
-                            Content="{Binding}"
-                            Focusable="True"
-                            IsTabStop="False" />
-                    </StackPanel>
+                    <Frame NavigationUIVisibility="Hidden"
+                            Content="{Binding}" />
                 </DataTemplate>
             </mah:HamburgerMenu.ContentTemplate>
         </mah:HamburgerMenu>

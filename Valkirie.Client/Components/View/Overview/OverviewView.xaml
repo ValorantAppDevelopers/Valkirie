@@ -1,66 +1,103 @@
-﻿<mah:MetroContentControl
-    x:Class="Valkirie.Client.Components.View.Overview.OverviewView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cuc="clr-namespace:Valkirie.Client.CustomControls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:local="clr-namespace:Valkirie.Client.Components.Page.Overview"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:utilities="clr-namespace:Valkirie.Client.Utilities"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    Background="White"
-    FontFamily="Sans"
-    mc:Ignorable="d">
+﻿<mah:MetroContentControl x:Class="Valkirie.Client.Components.View.Overview.OverviewView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:cuc="clr-namespace:Valkirie.Client.CustomControls"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                         xmlns:local="clr-namespace:Valkirie.Client.Components.Page.Overview"
+                         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:utilities="clr-namespace:Valkirie.Client.Utilities"
+                         d:DesignHeight="450"
+                         d:DesignWidth="800"
+                         Background="White"
+                         FontFamily="Sans"
+                         mc:Ignorable="d">
     <mah:MetroContentControl.Resources>
         <utilities:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <utilities:IntToStringConverter x:Key="IntToString" />
+        <utilities:FloatToStringConverter x:Key="FloatToString" />
 
-        <Style x:Key="ViewStats" TargetType="TextBlock">
-            <Setter Property="Background" Value="Black" />
-            <Setter Property="Margin" Value="10,0,10,10" />
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="TextAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
+        <Style x:Key="ViewStats"
+               TargetType="TextBlock">
+            <Setter Property="Background"
+                    Value="DimGray" />
+            <Setter Property="Margin"
+                    Value="10,10,10,10" />
+            <Setter Property="FontSize"
+                    Value="15" />
+            <Setter Property="Padding"
+                    Value="10" />
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="TextAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+        </Style>
+
+        <Style TargetType="Border"
+               x:Key="TitleValueBorder">
+            <Setter Property="Height"
+                    Value="auto" />
+            <Setter Property="Padding"
+                    Value="0,0,20,0" />
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Background" Value="DimGray"/>
+            <Setter Property="Margin"
+                    Value="0,5,5,0" />
+            <Setter Property="MinWidth"
+                    Value="100" />
+        </Style>
+
+        <Style x:Key="TitleTitleValue" TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="15" />
+            <Setter Property="FontWeight"
+                    Value="DemiBold" />
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="Opacity"
+                    Value="0.8" />
+        </Style>
+
+        <Style x:Key="ValueTitleValue" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
     </mah:MetroContentControl.Resources>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-        <Grid IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}">
+    <Grid IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
 
-            <StackPanel
-                Grid.Row="0"
-                Margin="10"
-                VerticalAlignment="Top"
-                Background="#383838"
-                Orientation="Vertical">
+        <StackPanel Grid.Row="0"
+                    Margin="10"
+                    VerticalAlignment="Top"
+                    Background="#383838"
+                    Orientation="Vertical">
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
 
 
-                    <Button
-                        Grid.Row="0"
+                <Button Grid.Row="0"
                         Grid.Column="0"
                         Width="35"
                         Height="35"
@@ -70,40 +107,36 @@
                         Focusable="False"
                         IsEnabled="{Binding IsRefreshEnable}"
                         ToolTip="Refresh">
-                        <iconPacks:PackIconModern Kind="Refresh" />
-                    </Button>
-                    <TextBox
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Width="auto"
-                        Height="35"
-                        Margin="10"
-                        mah:TextBoxHelper.Watermark="Username"
-                        BorderThickness="0"
-                        FontSize="17"
-                        Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox
-                        Grid.Row="0"
-                        Grid.Column="3"
-                        Width="auto"
-                        Height="35"
-                        Margin="10"
-                        mah:TextBoxHelper.Watermark="Tag"
-                        BorderThickness="0"
-                        FontSize="17"
-                        Text="{Binding Tag, UpdateSourceTrigger=PropertyChanged}" />
-                    <ComboBox
-                        Grid.Row="0"
-                        Grid.Column="4"
-                        Margin="10"
-                        HorizontalContentAlignment="Center"
-                        BorderThickness="0"
-                        Focusable="False"
-                        ItemsSource="{Binding Regions, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedItem="{Binding SelectedRegion, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        Grid.Row="0"
+                    <iconPacks:PackIconModern Kind="Refresh" />
+                </Button>
+                <TextBox Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Width="auto"
+                            Height="35"
+                            Margin="10"
+                            mah:TextBoxHelper.Watermark="Username"
+                            BorderThickness="0"
+                            FontSize="17"
+                            Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Row="0"
+                            Grid.Column="3"
+                            Width="auto"
+                            Height="35"
+                            Margin="10"
+                            mah:TextBoxHelper.Watermark="Tag"
+                            BorderThickness="0"
+                            FontSize="17"
+                            Text="{Binding Tag, UpdateSourceTrigger=PropertyChanged}" />
+                <ComboBox Grid.Row="0"
+                            Grid.Column="4"
+                            Margin="10"
+                            HorizontalContentAlignment="Center"
+                            BorderThickness="0"
+                            Focusable="False"
+                            ItemsSource="{Binding Regions, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding SelectedRegion, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Grid.Row="0"
                         Grid.Column="5"
                         Margin="10"
                         BorderThickness="0"
@@ -111,132 +144,255 @@
                         Content="Search"
                         Focusable="False"
                         FontSize="15" />
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Style="{StaticResource ViewStats}">
-                        <Run Text="Total Matches -" />
-                        <Run Text="{Binding NumberOfMatches}" />
-                    </TextBlock>
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="1"
-                        Style="{StaticResource ViewStats}">
-                        <Run Text="K/D Ratio-" />
-                        <Run Text="{Binding KDA}" />
-                    </TextBlock>
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Grid.ColumnSpan="1"
-                        Style="{StaticResource ViewStats}">
-                        <Run Text="Win % -" />
-                        <Run Text="{Binding WinPerc, StringFormat={}{0}%}" />
-                    </TextBlock>
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="4"
-                        Grid.ColumnSpan="2"
-                        Style="{StaticResource ViewStats}">
-                        <Run Text="Play Time -" />
-                        <Run Text="{Binding PlayTime}" />
-                    </TextBlock>
-
-                </Grid>
-                <Button
-                    Margin="10,0,10,10"
+            </Grid>
+            <Button Margin="10,0,10,10"
                     Padding="10"
                     BorderThickness="0"
                     Content="Filter"
                     Focusable="False"
                     FontSize="15"
                     IsEnabled="False" />
-            </StackPanel>
+        </StackPanel>
 
-            <StackPanel
-                Grid.Row="1"
-                Margin="10,0,10,0"
-                Background="#383838"
-                Orientation="Horizontal">
+        <StackPanel Grid.Row="1"
+                    Margin="10,0,10,0"
+                    Background="#383838"
+                    Orientation="Vertical"
+                    Visibility="{Binding IsRefreshEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                <StackPanel Margin="10" Orientation="Vertical">
-                    <Border
-                        Padding="5"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                            Style="{StaticResource ViewStats}">
+                        <Run Text="Total Matches -" />
+                        <Run Text="{Binding NumberOfMatches}" />
+                </TextBlock>
+
+                <TextBlock Grid.Column="1"
+                            Style="{StaticResource ViewStats}">
+                        <Run Text="K/D Ratio-" />
+                        <Run Text="{Binding KDA}" />
+                </TextBlock>
+
+                <TextBlock Grid.Column="2"
+                            Style="{StaticResource ViewStats}">
+                        <Run Text="Win % -" />
+                        <Run Text="{Binding WinPerc, StringFormat={}{0}%}" />
+                </TextBlock>
+
+                <TextBlock Grid.Column="3"
+                            Style="{StaticResource ViewStats}">
+                        <Run Text="Play Time -" />
+                        <Run Text="{Binding PlayTime}" />
+                </TextBlock>
+            </Grid>
+
+            <Separator BorderBrush="{StaticResource MahApps.Brushes.Accent}"
+                        Width="auto"
+                        Opacity="0.5"
+                        BorderThickness="2" />
+
+            <!--#region  Agent Overview -->
+            <StackPanel Margin="10"
+                        Orientation="Horizontal">
+                <Border Padding="5"
                         Background="Black"
-                        BorderBrush="Red"
+                        BorderBrush="{StaticResource MahApps.Brushes.Accent}"
                         BorderThickness="5"
                         CornerRadius="100">
-                        <Image
-                            Width="100"
+                    <Image Width="100"
                             Height="100"
-                            Source="{Binding MostPlayedAgent, UpdateSourceTrigger=PropertyChanged}">
-                            <Image.Clip>
-                                <RectangleGeometry
-                                    RadiusX="100"
-                                    RadiusY="100"
-                                    Rect="0,0,100,100" />
-                            </Image.Clip>
-                        </Image>
-                    </Border>
-                    <TextBlock
-                        Margin="0,10,0,0"
-                        FontFamily="{StaticResource ValorantFont}"
-                        FontSize="15"
-                        Foreground="White"
-                        Text="{Binding AgentName}"
-                        TextAlignment="Center" />
-                </StackPanel>
-                <Separator
-                    Width="150"
-                    BorderBrush="Gray"
-                    BorderThickness="2">
-                    <Separator.LayoutTransform>
-                        <RotateTransform Angle="90" />
-                    </Separator.LayoutTransform>
-                </Separator>
+                            Source="{Binding TopAgent.agenturl, UpdateSourceTrigger=PropertyChanged}">
+                        <Image.Clip>
+                            <RectangleGeometry RadiusX="100"
+                                                RadiusY="100"
+                                                Rect="0,0,100,100" />
+                        </Image.Clip>
+                    </Image>
+                </Border>
 
-                <StackPanel Margin="10,10,0,10" Orientation="Vertical">
-                    <TextBlock
-                        FontFamily="{StaticResource ValorantFont}"
-                        FontSize="15"
-                        Foreground="White"
-                        Text="Most Played Agent" />
-                    <WrapPanel AllowDrop="True">
-                        <cuc:StatsViewPanel
-                            Title="Wins"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Value="Test" />
+                <WrapPanel Margin="10,0,0,10"
+                            Orientation="Vertical">
+                    <TextBlock FontFamily="{StaticResource ValorantFont}"
+                                FontSize="15"
+                                Foreground="White"
+                                Text="{Binding TopAgent.agent}"
+                                Visibility="{Binding TopAgent.agent, Converter={StaticResource StringToVisibilityConverter}}" />
 
-                        <!--<cuc:StatsViewPanel
-                            Title="Wins"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Value="{Binding AgentWins, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}}" />
-                        <cuc:StatsViewPanel
-                            Title="K/D"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Value="{Binding AgentKD, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}}" />
-                        <cuc:StatsViewPanel
-                            Title="Headshots"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Value="{Binding AgentHS, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}}" />-->
+                    <WrapPanel Orientation="Horizontal">
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Playtime" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.playtime.playtimepatched}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Played Matches" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.matches}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Kills" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.kills}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Deaths" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.deaths}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Assists" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.assists}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="K/D" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.kdratio}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Headshots" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.headshots}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Headshots %" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.headshotpercentage}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Wins" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.wins}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Wins %" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.winpercentage}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Firstbloods" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.firstbloods}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Aces" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.aces}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Clutches" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.clutches}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource TitleValueBorder}">
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                                <TextBlock Style="{StaticResource TitleTitleValue}"
+                                            Text="Flawless" />
+                                <TextBlock Style="{StaticResource ValueTitleValue}"
+                                            Text="{Binding TopAgent.flawless}" />
+                            </StackPanel>
+                        </Border>
+                        <!--How this thing works??!?!?!?-->
+                        <!--<cuc:StatsViewPanel Title="Headshots"
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Value="{Binding AgentHS, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntToString}}" />-->
                     </WrapPanel>
-                </StackPanel>
-
-                <!--<Image
-                    Width="auto"
-                    Height="100"
-                    Source="{Binding PlayerCard, UpdateSourceTrigger=PropertyChanged}" />-->
+                </WrapPanel>
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+            <!--#endregion-->
+
+            <!--<Image
+                Width="auto"
+                Height="100"
+                Source="{Binding PlayerCard, UpdateSourceTrigger=PropertyChanged}" />-->
+        </StackPanel>
+    </Grid>
 </mah:MetroContentControl>
